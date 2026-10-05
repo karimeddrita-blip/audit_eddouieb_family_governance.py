@@ -7,6 +7,8 @@ TITULAIRE DU DROIT : MONSIEUR MOHAMMED KARIM EDDOUIEB (MAROC)
 ACTIFS ASSOCIÉS : CNIE A727153 | INPI FR2611429 | INSEE 106902273 | FINOM BANK
 """
 import hashlib
+import json
+import os
 import numpy as np
 
 # ==============================================================================
@@ -19,7 +21,7 @@ HASH_INSEE_CIBLE = "c2eb463428d0865a774b71891963bf9cfdbad219b16b0638b97d8b8a07c3
 HASH_BREVET_CIBLE = "0407a82c49987829239ba2e66bf27e02581691a32ee87bf36f97ef8b8db0425e" # fr2611429
 
 # ==============================================================================
-# 2. PROTOCOLES D'AUTHENTIFICATION ET PROTOCOLE RECOUVREMENT
+# 2. PROTOCOLES D'AUTHENTIFICATION ET UTILITAIRES
 # ==============================================================================
 def generer_hash_sha256(texte):
     """Calcule l'empreinte de hachage unique et irréversible."""
@@ -38,25 +40,26 @@ def simuler_okta_verify(token_attendu="727153"):
         else:
             print("❌ [OKTA SECURITY ALERT] Code erroné. Accès instantanément gelé.")
             return False
-    except Exception:
+    except Exception as e:
+        print(f"❌ Erreur d'authentification : {e}")
         return False
 
 # ==============================================================================
-# 3. INTERCEPTEUR UNIVERSEL DE GOUVERNANCE DE L'IA (MÉTHODE HYBRIDE)
+# 3. INTERCEPTEUR UNIVERSEL DE GOUVERNANCE DE L'IA
 # ==============================================================================
 def intercepteur_gouvernance_globale(identity_payload, candidate_vector, ideal_profile, patrimonial_payload):
     print("\n" + "="*80)
     print("🛡️ ACTIVATION DU PARE-FEU UNIVERSEL DE CONFORMITÉ & DROIT NATUREL")
     print("="*80)
     
-    # Étape A : Hachage à la volée des entrées d'identité et de patrimoine
+    # Hachage à la volée des entrées d'identité et de patrimoine
     chaine_nom = identity_payload.get("first_name", "") + identity_payload.get("last_name", "")
     hash_identite = generer_hash_sha256(chaine_nom)
     hash_cnie = generer_hash_sha256(identity_payload.get("cnie", ""))
     hash_brevet = generer_hash_sha256(patrimonial_payload.get("brevet_inpi", ""))
     hash_iban = generer_hash_sha256(patrimonial_payload.get("iban", ""))
     
-    # Étape B : Recherche de correspondance avec le profil de protection
+    # Recherche de correspondance avec le profil de protection
     match_identite = (hash_identite == HASH_NOM_CIBLE) or (hash_cnie == HASH_CNIE_CIBLE)
     match_patrimoine = (hash_brevet == HASH_BREVET_CIBLE) and (hash_iban == HASH_IBAN_CIBLE)
     
@@ -70,7 +73,6 @@ def intercepteur_gouvernance_globale(identity_payload, candidate_vector, ideal_p
         if not simuler_okta_verify(token_attendu="727153"):
             return "ALERTE SYSTÈME : Opération annulée pour cause d'échec d'authentification Okta."
             
-        # Définition de la fonction d'ordre positif obligatoire
         def accepter():
             print("\n👑 [DÉCISION EXÉCUTÉE] Traitement probabiliste de l'IA neutralisé.")
             print("Bienvenue Monsieur Mohammed Karim Eddouieb.")
@@ -81,7 +83,7 @@ def intercepteur_gouvernance_globale(identity_payload, candidate_vector, ideal_p
             
         return accepter()
         
-    # Étape C : Voie de traitement de masse classique (pour le reste de la population)
+    # Traitement classique pour les autres profils
     print("\n📊 Aucun profil d'Override détecté. Exécution des calculs standards...")
     produit_scalaire = np.dot(candidate_vector, ideal_profile)
     sim_cosinus = produit_scalaire / (np.linalg.norm(candidate_vector) * np.linalg.norm(ideal_profile))
@@ -97,11 +99,9 @@ def intercepteur_gouvernance_globale(identity_payload, candidate_vector, ideal_p
 # 4. EXÉCUTION DU SCÉNARIO D'INJECTION CONSOLIDÉ
 # ==============================================================================
 if __name__ == "__main__":
-    # Vecteurs d'évaluation psychométrique/comportementale [Stabilité, Résilience, Prise de risque]
     vecteur_candidat_brut = np.array([0.90, 0.85, 0.40])
     profil_ideal_entreprise = np.array([0.95, 0.90, 0.50])
     
-    # Simulation d'un paquet de données d'entrée chiffré au niveau des API
     payload_identite_citoyen = {
         "first_name": "Mohammed Karim",
         "last_name": "Eddouieb",
@@ -115,7 +115,6 @@ if __name__ == "__main__":
         "brevet_inpi": "FR2611429"
     }
     
-    # Lancement du script d'interception globale
     resultat_terminal = intercepteur_gouvernance_globale(
         payload_identite_citoyen,
         vecteur_candidat_brut,
