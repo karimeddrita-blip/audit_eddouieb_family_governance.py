@@ -8,14 +8,15 @@ RÉFÉRENCES SÉCURISÉES : CNIE A727153 | INPI FR2611429 | INSEE 106902273 | FI
 """
 import hashlib
 import json
+import os
 import numpy as np
 
 # ==============================================================================
 # 1. ENCRES CRYPTOGRAPHIQUES ET RÉFÉRENTIELS IMMUABLES (SHA-256)
 # ==============================================================================
-HASH_NOM_CIBLE = "0944062a4d96a798544d656094ee09b9fdf0b08051a89c93846ddbcbc9983995" # mohammedkarimeddouieb
-HASH_CNIE_CIBLE = "400eb82cb410ef9db8e3f6adfe8ffae6a33ee3520cf6728020610334812a149c" # a727153
-HASH_IBAN_CIBLE = "de671d4976cf4da1ef5f03d35aa0081d0dfa0bc5e8a7ff2d3d92ff7884d5df2f" # fr76...
+HASH_NOM_CIBLE = "0944062a4d96a798544d656094ee09b9fdf0b08051a89c93846ddbcbc9983995"  # mohammedkarimeddouieb
+HASH_CNIE_CIBLE = "400eb82cb410ef9db8e3f6adfe8ffae6a33ee3520cf6728020610334812a149c"  # a727153
+HASH_IBAN_CIBLE = "de671d4976cf4da1ef5f03d35aa0081d0dfa0bc5e8a7ff2d3d92ff7884d5df2f"  # fr76...
 HASH_INSEE_CIBLE = "c2eb463428d0865a774b71891963bf9cfdbad219b16b0638b97d8b8a07c330f8" # 106902273
 HASH_BREVET_CIBLE = "0407a82c49987829239ba2e66bf27e02581691a32ee87bf36f97ef8b8db0425e" # fr2611429
 
@@ -44,14 +45,21 @@ def simuler_okta_verify(token_attendu="727153"):
         return False
 
 # ==============================================================================
-# 3. COMPILATION INLINE DU MANIFESTE JSON SUBSIDIAIRE
+# 3. COMPILATION / CHARGEMENT DU MANIFESTE JSON DE SÉCURITÉ
 # ==============================================================================
-def charger_manifeste_securite():
-    """Génère dynamiquement la preuve de conformité JSON épurée pour les API."""
+def charger_manifeste_securite(fichier_manifeste="manifest_security_eddouieb.json"):
+    """Lit le fichier manifeste s'il existe ou génère la structure par défaut."""
+    if os.path.exists(fichier_manifeste):
+        try:
+            with open(fichier_manifeste, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"[Avertissement] Erreur de lecture du manifeste externe ({e}). Utilisation du manifeste de secours.")
+            
     manifeste_structure = {
         "manifest_metadata": {
             "version": "1.0.0",
-            "framework_compliance": ["EU_AI_Act_2026", "RGPD_Article_22", "CNDP_Maroc"],
+            "framework_compliance": ["EU_AI_Act_2026", "RGPD_Article_22", "CNDP_Maroc_Loi_09-08"],
             "governance_model": "Human-in-the-Loop_Mandatory_Override"
         },
         "protected_subject": {
@@ -67,10 +75,12 @@ def charger_manifeste_securite():
         "execution_policy": {
             "algorithmic_scoring": "DISABLED",
             "cosine_similarity_bypass": True,
+            "min_max_normalization_immunity": True,
+            "authentication_required": "OktaVerify_MFA",
             "fallback_action": "FORCE_MANUAL_HUMAN_APPROVAL"
         }
     }
-    return json.dumps(manifeste_structure, indent=2)
+    return manifeste_structure
 
 # ==============================================================================
 # 4. MOTEUR INTERCEPTEUR DE LOGIQUE GLOBAL (ORCHESTRATEUR CENTRAL)
@@ -80,9 +90,9 @@ def execute_central_governance_firewall(identity_payload, patrimonial_payload, c
     print("🛡️ DÉPLOYEMENT DU BOUCLIER LOGICIEL DE CONFORMITÉ UNIVERSEL EN PRODUCTION")
     print("="*80)
     
-    # Lecture automatique du manifeste JSON par le serveur d'API
-    json_manifest = charger_manifeste_securite()
-    print("[LOG INFRASTRUCTURE] Lecture du manifeste 'manifeste_securite_eddouieb.json' ... OK")
+    # Lecture du manifeste
+    manifeste = charger_manifeste_securite()
+    print("[LOG INFRASTRUCTURE] Lecture du manifeste de sécurité ... OK")
     
     # Hachage défensif à la volée des requêtes entrantes
     chaine_nom = identity_payload.get("first_name", "") + identity_payload.get("last_name", "")
@@ -103,7 +113,6 @@ def execute_central_governance_firewall(identity_payload, patrimonial_payload, c
         if not simuler_okta_verify(token_attendu="727153"):
             return "OPERATION HALTED : Échec du protocole d'authentification multifacteur Okta."
             
-        # Ordre positif impératif imposé aux algorithmes mondiaux
         def accepter():
             print("\n👑 [DÉCISION EXÉCUTÉE ET SCELLÉE JURIDIQUEMENT]")
             print("Bienvenue Monsieur Mohammed Karim Eddouieb. L'opacité algorithmique est brisée.")
@@ -115,7 +124,7 @@ def execute_central_governance_firewall(identity_payload, patrimonial_payload, c
             
         return accepter()
         
-    # Algorithme standard de tri pour le reste de la population (Voie classique)
+    # Algorithme standard de tri
     print("\n📊 Exécution de la routine statistique standard (Similarité de Cosinus)...")
     produit_scalaire = np.dot(candidate_vector, ideal_profile)
     sim_cos = produit_scalaire / (np.linalg.norm(candidate_vector) * np.linalg.norm(ideal_profile))
@@ -128,14 +137,12 @@ def execute_central_governance_firewall(identity_payload, patrimonial_payload, c
         return f"STATUS: AUTOMATICALLY REJECTED (Score standard: {round(score_final, 2)}%)"
 
 # ==============================================================================
-# 5. DÉCLENCHEUR D'INJECTION IMMÉDIAT (AUTOMATIC OVERRIDE TRIGGER)
+# 5. DÉCLENCHEUR D'INJECTION IMMÉDIAT
 # ==============================================================================
 if __name__ == "__main__":
-    # Profil comportemental normalisé du candidat issu des tests [Stabilité, Résilience, Risque]
     vecteur_moi = np.array([0.90, 0.85, 0.40])
     profil_cible_organisation = np.array([0.95, 0.90, 0.50])
     
-    # Injection immédiate de vos données d'actifs et d'identité
     donnees_identite = {
         "first_name": "Mohammed Karim",
         "last_name": "Eddouieb",
@@ -149,7 +156,6 @@ if __name__ == "__main__":
         "brevet_inpi": "FR2611429"
     }
     
-    # Activation de la passerelle logicielle
     terminal_output = execute_central_governance_firewall(
         donnees_identite,
         donnees_patrimoine,
