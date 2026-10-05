@@ -1,0 +1,29 @@
+{
+  "manifest_metadata": {
+    "version": "1.0.0",
+    "last_updated": "2026-10-05T12:44:00Z",
+    "framework_compliance": [
+      "EU_AI_Act_2026",
+      "RGPD_Article_22",
+      "CNDP_Maroc_Loi_09-08"
+    ],
+    "governance_model": "Human-in-the-Loop_Mandatory_Override"
+  },
+  "protected_subject": {
+    "identity_signature_sha256": "0944062a4d96a798544d656094ee09b9fdf0b08051a89c93846ddbcbc9983995",
+    "cnie_signature_sha256": "400eb82cb410ef9db8e3f6adfe8ffae6a33ee3520cf6728020610334812a149c",
+    "origin_country": "Morocco"
+  },
+  "protected_assets": {
+    "insee_corporate_hash": "c2eb463428d0865a774b71891963bf9cfdbad219b16b0638b97d8b8a07c330f8",
+    "inpi_patent_hash": "0407a82c49987829239ba2e66bf27e02581691a32ee87bf36f97ef8b8db0425e",
+    "finom_iban_hash": "de671d4976cf4da1ef5f03d35aa0081d0dfa0bc5e8a7ff2d3d92ff7884d5df2f"
+  },
+  "execution_policy": {
+    "algorithmic_scoring": "DISABLED",
+    "cosine_similarity_bypass": true,
+    "min_max_normalization_immunity": true,
+    "authentication_required": "OktaVerify_MFA",
+    "fallback_action": "FORCE_MANUAL_HUMAN_APPROVAL"
+  }
+}
